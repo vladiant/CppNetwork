@@ -37,3 +37,35 @@ target_link_libraries(
         Threads::Threads
 )
 
+# TCP sample client
+add_executable(
+    TcpClient
+    tcp/client.cpp
+)
+
+set_target_properties(
+    TcpClient
+    PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED YES
+        CXX_EXTENSIONS NO
+)
+
+target_compile_options(
+    TcpClient
+    PRIVATE
+         $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
+)
+
+target_include_directories(
+    TcpClient 
+    PUBLIC 
+      third_party/asio
+)
+
+target_link_libraries(
+    TcpClient
+    PRIVATE
+        Threads::Threads
+)
