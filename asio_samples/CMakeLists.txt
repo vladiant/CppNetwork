@@ -26,8 +26,8 @@ target_compile_options(
 )
 
 target_include_directories(
-    TcpServer 
-    PUBLIC 
+    TcpServer
+    PUBLIC
       third_party/asio
 )
 
@@ -59,8 +59,8 @@ target_compile_options(
 )
 
 target_include_directories(
-    TcpClient 
-    PUBLIC 
+    TcpClient
+    PUBLIC
       third_party/asio
 )
 
@@ -105,3 +105,35 @@ target_link_libraries(
         Threads::Threads
 )
 
+# UDP sample client
+add_executable(
+    UdpClient
+    udp/client.cpp
+)
+
+set_target_properties(
+    UdpClient
+    PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED YES
+        CXX_EXTENSIONS NO
+)
+
+target_compile_options(
+    UdpClient
+    PRIVATE
+         $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
+)
+
+target_include_directories(
+    UdpClient
+    PUBLIC
+      third_party/asio
+)
+
+target_link_libraries(
+    UdpClient
+    PRIVATE
+        Threads::Threads
+)
