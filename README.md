@@ -6,3 +6,7 @@ C++ Network Samples
 * [C and Linux Socket Topics](https://www.tenouk.com/cnlinuxsockettutorials.html)
 * [Qt: Network Programming API](https://doc.qt.io/qt-6/network.html)
 * [Building RESTful Interfaces in C++ With nlohmann and cpp-httplib - Kevin Carpenter - C++ on Sea 2023](https://www.youtube.com/watch?v=uqPTzUdNLZk), [code](https://github.com/kevinbcarpenter/restful-with-billions)
+* [High-performance network library using C++20 coroutines](https://habr.com/en/articles/768418/)
+* <https://github.com/resetius/coroio>
+* [Socket Programming in C/C++](https://www.geeksforgeeks.org/socket-programming-cc/)
+* [TCP Server-Client implementation in C](https://www.geeksforgeeks.org/tcp-server-client-implementation-in-c/)
