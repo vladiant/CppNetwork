@@ -2,6 +2,10 @@
 
 using namespace std::string_literals;  // String operations optimization
 
+Server::~Server(){
+    Shutdown();
+}
+
 int Server::Start() noexcept {
   addrinfo* server_addr_struct = GetServerLocalAddress();
   if (!server_addr_struct) {

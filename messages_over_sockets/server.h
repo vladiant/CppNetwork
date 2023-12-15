@@ -45,7 +45,8 @@ class Server {
   Server(const Server& other) = delete;
   Server& operator=(const Server& other) = delete;
 
-  // ~Server() = default;
+  ~Server();
+
  public:
   int Start() noexcept;
 

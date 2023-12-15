@@ -8,6 +8,9 @@ add_library(
     common.h
 )
 
+# TODO: Fix for windows
+# if (WIN32) target_link_libraries(... PUBLIC -lws2_32)
+
 set_target_properties(
     MessagesLib
     PROPERTIES
