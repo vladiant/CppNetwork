@@ -18,3 +18,4 @@ Start another client
 
 ## References
 * [How to send messages over sockets and create your own messanging protocols in C++](https://habr.com/en/articles/779176/)
+* <https://github.com/AdrianGuretto/Habr-Socket-Communication>
