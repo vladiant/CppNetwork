@@ -2,9 +2,7 @@
 
 using namespace std::string_literals;  // String operations optimization
 
-Server::~Server(){
-    Shutdown();
-}
+Server::~Server() { Shutdown(); }
 
 int Server::Start() noexcept {
   addrinfo* server_addr_struct = GetServerLocalAddress();
@@ -101,8 +99,9 @@ addrinfo* Server::GetServerLocalAddress() noexcept {
   addrinfo hints, *bind_address;
   // Create a configuration structure for getting server's address structure
   memset(&hints, 0x00, sizeof(hints));
-  hints.ai_family = AF_INET;        // Use IPv4
-  hints.ai_socktype = SOCK_STREAM;  // Use TCP
+  hints.ai_family = AF_INET;  // Use IPv4
+  hints.ai_socktype =
+      SOCK_STREAM;  // Use TCP, SOCK_DGRAM for UDP, SOCK_RAW for IP, ICMP, RAW
 
   // Try to resolve server's local address and write it to bind_address variable
   std::cerr << "[Debug] Resolving server hostname.\n"s;

@@ -45,8 +45,9 @@ addrinfo* Client::ResolveConnectionAddress() noexcept {
   // Create helper and connection data structures for getaddrinfo() call
   addrinfo hints, *connection_address;
   memset(&hints, 0x00, sizeof(hints));
-  hints.ai_family = AF_INET;        // use IPv4 for connection
-  hints.ai_socktype = SOCK_STREAM;  // use TCP
+  hints.ai_family = AF_INET;  // use IPv4 for connection
+  hints.ai_socktype =
+      SOCK_STREAM;  // use TCP, SOCK_DGRAM for UDP, SOCK_RAW for IP, ICMP, RAW
 
   if (getaddrinfo(remote_hostname_.data(), remote_port_.data(), &hints,
                   &connection_address) == -1) {
