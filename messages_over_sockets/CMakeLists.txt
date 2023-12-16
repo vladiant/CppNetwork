@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
 project(CppNetwork)
 
@@ -34,8 +34,6 @@ target_include_directories(
 )
 
 # Server
-find_package(Threads REQUIRED)
-
 add_executable(
     MessagesServer
     server.h
