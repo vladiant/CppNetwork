@@ -10,3 +10,4 @@ C++ Network Samples
 * <https://github.com/resetius/coroio>
 * [Socket Programming in C/C++](https://www.geeksforgeeks.org/socket-programming-cc/)
 * [TCP Server-Client implementation in C](https://www.geeksforgeeks.org/tcp-server-client-implementation-in-c/)
+* [Creating a Sender/Receiver HTTP Server for Asynchronous Operations in C++ - Dietmar Kühl - ACCU 2024](https://www.youtube.com/watch?v=O2G3bwNP5p4), [code](https://github.com/dietmarkuehl/stdnet)
