@@ -193,8 +193,8 @@ int Server::HandleConnections() noexcept {
           BroadcastMessage(msg_str, connected_clients_.at(sock));
         }
       }  // if (FD_ISSET)
-    }    // for (SOCKET sock)
-  }      // while (true)
+    }  // for (SOCKET sock)
+  }  // while (true)
   return 0;
 }
 

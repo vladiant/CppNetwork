@@ -26,7 +26,6 @@
 /* address or host name of the server, or */
 /* set the server name in the #define SERVER above. */
 int main(int argc, char *argv[]) {
-
   /* Variable and structure definitions. */
   int sd, rc;
   struct sockaddr_in serveraddr;
