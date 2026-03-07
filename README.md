@@ -17,4 +17,4 @@ C++ Network Samples
 * [Your First C++ WebSocket Client](https://medium.com/nerd-for-tech/your-first-c-websocket-client-4e7b36353d26)
 * <https://github.com/zaphoyd/websocketpp>
 * <https://github.com/warmcat/libwebsockets>
-* <https://github.com/stasyao/websocket_demo>
+* <https://github.com/stasyao/websocket_demo>, [Анатомия WebSocket: человечный разбор RFC 6455](https://habr.com/ru/articles/1004772/)
