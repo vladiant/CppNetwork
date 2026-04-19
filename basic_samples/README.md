@@ -2,6 +2,12 @@
 
 ## Testing
 
+### FTP
+* `ftp test.rebex.net`
+* `sftp demo@test.rebex.net`
+* <https://test.rebex.net/>
+* [Free Public FTP Servers](https://www.sftp.net/public-online-ftp-servers)
+
 ### SMTP
 * [Free SMTP Server for Testing](https://www.wpoven.com/tools/free-smtp-server-for-testing)
 * Test connectivity: `nc -v smtp.freesmtpservers.com 25`
