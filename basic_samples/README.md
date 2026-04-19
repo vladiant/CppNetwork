@@ -2,6 +2,22 @@
 
 ## Testing
 
+### SMTP
+* [Free SMTP Server for Testing](https://www.wpoven.com/tools/free-smtp-server-for-testing)
+* Test connectivity: `nc -v smtp.freesmtpservers.com 25`
+* Simulate SMTP Interaction (Sending Test Email)
+```
+telnet localhost 25 (or your mail server IP, smtp.freesmtpservers.com)
+EHLO localhost
+MAIL FROM: <sender@example.com>
+RCPT TO: <recipient@example.com>
+DATA
+Subject: Test Subject
+This is a test email.
+. (a single period on a new line)
+QUIT 
+```
+
 ### HTTP
 * Connect to <http://httpforever.com/>
 
@@ -16,3 +32,7 @@
 * [HTTP/3 with curl](https://curl.se/docs/http3.html)
 * [HTTP/3](https://everything.curl.dev/http/versions/http3.html)
 * [HTTP/3 check](https://http3check.net/)
+
+### Captured communications test data
+* <https://malware-traffic-analysis.net/>
+* [wireshark: SampleCaptures](https://wiki.wireshark.org/samplecaptures)
