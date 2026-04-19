@@ -39,6 +39,14 @@ QUIT
 * [HTTP/3](https://everything.curl.dev/http/versions/http3.html)
 * [HTTP/3 check](https://http3check.net/)
 
+### HTTPS
+* Close Chrome / Firefox
+* `export SSLKEYLOGFILE=~/.ssl-key.log`
+* Launch Chrome / Firefox
+* Browse websites. The `~/.ssl-key.log` file will be populated with keys.
+* Configure Wireshark: Go to Edit -> Preferences -> Protocols -> TLS and set the "(Pre)-Master-Secret log filename" to `~/.ssl-key.log`
+* [K50557518: Decrypt SSL traffic with the SSLKEYLOGFILE environment variable on Firefox or Google Chrome using Wireshark](https://my.f5.com/manage/s/article/K50557518)
+
 ### Captured communications test data
 * <https://malware-traffic-analysis.net/>
 * [wireshark: SampleCaptures](https://wiki.wireshark.org/samplecaptures)
