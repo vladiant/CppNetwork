@@ -1,7 +1,7 @@
 #include "transport_sniffer.hpp"
 
 #include <arpa/inet.h>
-#include <netdb.h>          // getservbyport
+#include <netdb.h>  // getservbyport
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ip6.h>

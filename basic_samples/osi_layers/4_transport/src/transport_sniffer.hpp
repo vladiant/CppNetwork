@@ -14,16 +14,16 @@ using byte_span = std::span<const std::uint8_t>;
 // IP protocol numbers we care about by name. Values come from the Linux
 // <netinet/in.h> header (IANA "Assigned Internet Protocol Numbers").
 enum class IpProto : std::uint8_t {
-  ICMP    = IPPROTO_ICMP,
-  IGMP    = IPPROTO_IGMP,
-  TCP     = IPPROTO_TCP,
-  UDP     = IPPROTO_UDP,
-  IPv6    = IPPROTO_IPV6,
-  GRE     = IPPROTO_GRE,
-  ESP     = IPPROTO_ESP,
-  AH      = IPPROTO_AH,
-  ICMPv6  = IPPROTO_ICMPV6,
-  SCTP    = IPPROTO_SCTP,
+  ICMP = IPPROTO_ICMP,
+  IGMP = IPPROTO_IGMP,
+  TCP = IPPROTO_TCP,
+  UDP = IPPROTO_UDP,
+  IPv6 = IPPROTO_IPV6,
+  GRE = IPPROTO_GRE,
+  ESP = IPPROTO_ESP,
+  AH = IPPROTO_AH,
+  ICMPv6 = IPPROTO_ICMPV6,
+  SCTP = IPPROTO_SCTP,
   UDPLite = IPPROTO_UDPLITE,
 };
 

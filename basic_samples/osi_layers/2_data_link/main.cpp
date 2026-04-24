@@ -67,15 +67,24 @@ extern "C" void signal_handler(int /*sig*/) {
 /// Resolve a numeric EtherType to a human-readable name.
 [[nodiscard]] std::string ethertype_name(std::uint16_t ethertype) {
   switch (ethertype) {
-    case ETH_P_IP:       return "IPv4";
-    case ETH_P_IPV6:     return "IPv6";
-    case ETH_P_ARP:      return "ARP";
-    case ETH_P_RARP:     return "RARP";
-    case ETH_P_8021Q:    return "802.1Q VLAN";
-    case ETH_P_LLDP:     return "LLDP";
-    case ETH_P_MPLS_UC:  return "MPLS Unicast";
-    case ETH_P_MPLS_MC:  return "MPLS Multicast";
-    case ETH_P_8021AD:   return "802.1ad QinQ";
+    case ETH_P_IP:
+      return "IPv4";
+    case ETH_P_IPV6:
+      return "IPv6";
+    case ETH_P_ARP:
+      return "ARP";
+    case ETH_P_RARP:
+      return "RARP";
+    case ETH_P_8021Q:
+      return "802.1Q VLAN";
+    case ETH_P_LLDP:
+      return "LLDP";
+    case ETH_P_MPLS_UC:
+      return "MPLS Unicast";
+    case ETH_P_MPLS_MC:
+      return "MPLS Multicast";
+    case ETH_P_8021AD:
+      return "802.1ad QinQ";
     default: {
       std::ostringstream oss;
       oss << "Unknown: 0x" << std::hex << std::uppercase << ethertype;
@@ -100,8 +109,7 @@ void hex_dump(std::span<const std::uint8_t> data,
   }
   std::cout << std::dec;
   if (data.size() > max_bytes) {
-    std::cout << "    ... (" << (data.size() - max_bytes)
-              << " more bytes)\n";
+    std::cout << "    ... (" << (data.size() - max_bytes) << " more bytes)\n";
   }
 }
 
@@ -112,8 +120,8 @@ struct EthernetFrame {
   MacAddr src_mac{};
   std::uint16_t ethertype{};  ///< After VLAN tag stripping (if any)
   bool has_vlan_tag{false};
-  std::uint16_t vlan_id{0};        ///< Valid when has_vlan_tag == true
-  std::uint8_t vlan_priority{0};   ///< PCP bits (0-7)
+  std::uint16_t vlan_id{0};       ///< Valid when has_vlan_tag == true
+  std::uint8_t vlan_priority{0};  ///< PCP bits (0-7)
   std::span<const std::uint8_t> payload;
 };
 
@@ -133,8 +141,7 @@ struct EthernetFrame {
   // 802.1Q VLAN tag (0x8100) or QinQ (0x88A8)
   if (type_or_len == kEtherType8021Q || type_or_len == kEtherType8021AD) {
     if (buf.size() < offset + kVlanTagLen) return std::nullopt;
-    const std::uint16_t tci =
-        read_be16(buf.subspan(offset).first<2>());
+    const std::uint16_t tci = read_be16(buf.subspan(offset).first<2>());
     frame.has_vlan_tag = true;
     frame.vlan_priority = static_cast<std::uint8_t>((tci >> 13) & 0x07);
     frame.vlan_id = tci & 0x0FFF;
@@ -258,9 +265,9 @@ int main(int argc, char* argv[]) {
   socklen_t sender_len = sizeof(sender);
 
   while (g_running.load(std::memory_order_relaxed)) {
-    const ssize_t n = ::recvfrom(sock.get(), buf.data(), buf.size(), 0,
-                                 std::bit_cast<sockaddr*>(&sender),
-                                 &sender_len);
+    const ssize_t n =
+        ::recvfrom(sock.get(), buf.data(), buf.size(), 0,
+                   std::bit_cast<sockaddr*>(&sender), &sender_len);
     if (n < 0) {
       if (g_running.load(std::memory_order_relaxed)) std::perror("recvfrom");
       break;

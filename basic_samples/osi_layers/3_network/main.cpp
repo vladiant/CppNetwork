@@ -14,9 +14,9 @@
 #include <algorithm>
 #include <array>
 #include <atomic>
+#include <csignal>
 #include <cstdint>
 #include <cstring>
-#include <csignal>
 #include <iomanip>
 #include <iostream>
 #include <memory>
@@ -68,7 +68,8 @@ template <typename T>
 
 // ─── Formatting helpers ──────────────────────────────────────────────────────
 
-[[nodiscard]] std::string mac_to_str(std::span<const std::uint8_t, kMacAddrLen> mac) {
+[[nodiscard]] std::string mac_to_str(
+    std::span<const std::uint8_t, kMacAddrLen> mac) {
   std::ostringstream o;
   for (std::size_t i = 0; i < mac.size(); ++i) {
     if (i) o << ':';
@@ -125,78 +126,130 @@ void hex_dump(std::span<const std::uint8_t> data, std::size_t max_bytes = 32,
 
 [[nodiscard]] std::string ip_proto_name(std::uint8_t proto) {
   switch (proto) {
-    case IPPROTO_ICMP:   return "ICMP";
-    case IPPROTO_IGMP:   return "IGMP";
-    case IPPROTO_TCP:    return "TCP";
-    case IPPROTO_UDP:    return "UDP";
-    case IPPROTO_GRE:    return "GRE";
-    case IPPROTO_ESP:    return "IPSec ESP";
-    case IPPROTO_AH:     return "IPSec AH";
-    case IPPROTO_ICMPV6: return "ICMPv6";
-    case kProtoOSPF:     return "OSPF";
-    case IPPROTO_SCTP:   return "SCTP";
-    default:             return "Unknown (" + std::to_string(proto) + ")";
+    case IPPROTO_ICMP:
+      return "ICMP";
+    case IPPROTO_IGMP:
+      return "IGMP";
+    case IPPROTO_TCP:
+      return "TCP";
+    case IPPROTO_UDP:
+      return "UDP";
+    case IPPROTO_GRE:
+      return "GRE";
+    case IPPROTO_ESP:
+      return "IPSec ESP";
+    case IPPROTO_AH:
+      return "IPSec AH";
+    case IPPROTO_ICMPV6:
+      return "ICMPv6";
+    case kProtoOSPF:
+      return "OSPF";
+    case IPPROTO_SCTP:
+      return "SCTP";
+    default:
+      return "Unknown (" + std::to_string(proto) + ")";
   }
 }
 
 [[nodiscard]] std::string icmp4_type_name(std::uint8_t type) {
   switch (type) {
-    case ICMP_ECHOREPLY:      return "Echo Reply";
-    case ICMP_DEST_UNREACH:   return "Destination Unreachable";
-    case ICMP_SOURCE_QUENCH:  return "Source Quench";
-    case ICMP_REDIRECT:       return "Redirect";
-    case ICMP_ECHO:           return "Echo Request";
-    case ICMP_TIME_EXCEEDED:  return "Time Exceeded";
-    case ICMP_PARAMETERPROB:  return "Parameter Problem";
-    case ICMP_TIMESTAMP:      return "Timestamp";
-    case ICMP_TIMESTAMPREPLY: return "Timestamp Reply";
-    case ICMP_ADDRESS:        return "Address Mask Request";
-    case ICMP_ADDRESSREPLY:   return "Address Mask Reply";
-    default:                  return "Unknown (" + std::to_string(type) + ")";
+    case ICMP_ECHOREPLY:
+      return "Echo Reply";
+    case ICMP_DEST_UNREACH:
+      return "Destination Unreachable";
+    case ICMP_SOURCE_QUENCH:
+      return "Source Quench";
+    case ICMP_REDIRECT:
+      return "Redirect";
+    case ICMP_ECHO:
+      return "Echo Request";
+    case ICMP_TIME_EXCEEDED:
+      return "Time Exceeded";
+    case ICMP_PARAMETERPROB:
+      return "Parameter Problem";
+    case ICMP_TIMESTAMP:
+      return "Timestamp";
+    case ICMP_TIMESTAMPREPLY:
+      return "Timestamp Reply";
+    case ICMP_ADDRESS:
+      return "Address Mask Request";
+    case ICMP_ADDRESSREPLY:
+      return "Address Mask Reply";
+    default:
+      return "Unknown (" + std::to_string(type) + ")";
   }
 }
 
 [[nodiscard]] std::string icmp4_unreach_name(std::uint8_t code) {
   switch (code) {
-    case ICMP_NET_UNREACH:  return "Net Unreachable";
-    case ICMP_HOST_UNREACH: return "Host Unreachable";
-    case ICMP_PROT_UNREACH: return "Protocol Unreachable";
-    case ICMP_PORT_UNREACH: return "Port Unreachable";
-    case ICMP_FRAG_NEEDED:  return "Fragmentation Needed (DF set)";
-    case ICMP_SR_FAILED:    return "Source Route Failed";
-    case ICMP_NET_UNKNOWN:  return "Destination Network Unknown";
-    case ICMP_HOST_UNKNOWN: return "Destination Host Unknown";
-    default:                return "Unknown Code (" + std::to_string(code) + ")";
+    case ICMP_NET_UNREACH:
+      return "Net Unreachable";
+    case ICMP_HOST_UNREACH:
+      return "Host Unreachable";
+    case ICMP_PROT_UNREACH:
+      return "Protocol Unreachable";
+    case ICMP_PORT_UNREACH:
+      return "Port Unreachable";
+    case ICMP_FRAG_NEEDED:
+      return "Fragmentation Needed (DF set)";
+    case ICMP_SR_FAILED:
+      return "Source Route Failed";
+    case ICMP_NET_UNKNOWN:
+      return "Destination Network Unknown";
+    case ICMP_HOST_UNKNOWN:
+      return "Destination Host Unknown";
+    default:
+      return "Unknown Code (" + std::to_string(code) + ")";
   }
 }
 
 [[nodiscard]] std::string icmp4_redirect_name(std::uint8_t code) {
   switch (code) {
-    case ICMP_REDIR_NET:     return "Redirect for Network";
-    case ICMP_REDIR_HOST:    return "Redirect for Host";
-    case ICMP_REDIR_NETTOS:  return "Redirect for TOS & Network";
-    case ICMP_REDIR_HOSTTOS: return "Redirect for TOS & Host";
-    default:                 return "Unknown Code (" + std::to_string(code) + ")";
+    case ICMP_REDIR_NET:
+      return "Redirect for Network";
+    case ICMP_REDIR_HOST:
+      return "Redirect for Host";
+    case ICMP_REDIR_NETTOS:
+      return "Redirect for TOS & Network";
+    case ICMP_REDIR_HOSTTOS:
+      return "Redirect for TOS & Host";
+    default:
+      return "Unknown Code (" + std::to_string(code) + ")";
   }
 }
 
 [[nodiscard]] std::string icmp6_type_name(std::uint8_t type) {
   switch (type) {
-    case ICMP6_DST_UNREACH:      return "Destination Unreachable";
-    case ICMP6_PACKET_TOO_BIG:   return "Packet Too Big";
-    case ICMP6_TIME_EXCEEDED:    return "Time Exceeded";
-    case ICMP6_PARAM_PROB:       return "Parameter Problem";
-    case ICMP6_ECHO_REQUEST:     return "Echo Request";
-    case ICMP6_ECHO_REPLY:       return "Echo Reply";
-    case ND_ROUTER_SOLICIT:      return "Router Solicitation (NDP)";
-    case ND_ROUTER_ADVERT:       return "Router Advertisement (NDP)";
-    case ND_NEIGHBOR_SOLICIT:    return "Neighbor Solicitation (NDP)";
-    case ND_NEIGHBOR_ADVERT:     return "Neighbor Advertisement (NDP)";
-    case ND_REDIRECT:            return "Redirect (NDP)";
-    case MLD_LISTENER_QUERY:     return "MLD Listener Query";
-    case MLD_LISTENER_REPORT:    return "MLD Listener Report";
-    case MLD_LISTENER_REDUCTION: return "MLD Listener Done";
-    default:                     return "Unknown (" + std::to_string(type) + ")";
+    case ICMP6_DST_UNREACH:
+      return "Destination Unreachable";
+    case ICMP6_PACKET_TOO_BIG:
+      return "Packet Too Big";
+    case ICMP6_TIME_EXCEEDED:
+      return "Time Exceeded";
+    case ICMP6_PARAM_PROB:
+      return "Parameter Problem";
+    case ICMP6_ECHO_REQUEST:
+      return "Echo Request";
+    case ICMP6_ECHO_REPLY:
+      return "Echo Reply";
+    case ND_ROUTER_SOLICIT:
+      return "Router Solicitation (NDP)";
+    case ND_ROUTER_ADVERT:
+      return "Router Advertisement (NDP)";
+    case ND_NEIGHBOR_SOLICIT:
+      return "Neighbor Solicitation (NDP)";
+    case ND_NEIGHBOR_ADVERT:
+      return "Neighbor Advertisement (NDP)";
+    case ND_REDIRECT:
+      return "Redirect (NDP)";
+    case MLD_LISTENER_QUERY:
+      return "MLD Listener Query";
+    case MLD_LISTENER_REPORT:
+      return "MLD Listener Report";
+    case MLD_LISTENER_REDUCTION:
+      return "MLD Listener Done";
+    default:
+      return "Unknown (" + std::to_string(type) + ")";
   }
 }
 
@@ -205,15 +258,24 @@ void hex_dump(std::span<const std::uint8_t> data, std::size_t max_bytes = 32,
   // overlap with the ip_proto_name() table — this is intentional:
   // in an IPv6 next-header chain these values denote extension headers.
   switch (type) {
-    case IPPROTO_HOPOPTS:  return "Hop-by-Hop Options";
-    case IPPROTO_ROUTING:  return "Routing";
-    case IPPROTO_FRAGMENT: return "Fragment";
-    case IPPROTO_ESP:      return "ESP";
-    case IPPROTO_AH:       return "Authentication";
-    case IPPROTO_DSTOPTS:  return "Destination Options";
-    case IPPROTO_MH:       return "Mobility";
-    case IPPROTO_NONE:     return "No Next Header";
-    default:               return "Unknown Extension (" + std::to_string(type) + ")";
+    case IPPROTO_HOPOPTS:
+      return "Hop-by-Hop Options";
+    case IPPROTO_ROUTING:
+      return "Routing";
+    case IPPROTO_FRAGMENT:
+      return "Fragment";
+    case IPPROTO_ESP:
+      return "ESP";
+    case IPPROTO_AH:
+      return "Authentication";
+    case IPPROTO_DSTOPTS:
+      return "Destination Options";
+    case IPPROTO_MH:
+      return "Mobility";
+    case IPPROTO_NONE:
+      return "No Next Header";
+    default:
+      return "Unknown Extension (" + std::to_string(type) + ")";
   }
 }
 
@@ -223,30 +285,54 @@ void hex_dump(std::span<const std::uint8_t> data, std::size_t max_bytes = 32,
   // (DSCP << 2), so we right-shift by 2 to compare against the 6-bit
   // DSCP field.
   switch (dscp) {
-    case IPTOS_CLASS_CS0 >> 2: return "Default (BE)";
-    case IPTOS_CLASS_CS1 >> 2: return "CS1";
-    case IPTOS_CLASS_CS2 >> 2: return "CS2";
-    case IPTOS_CLASS_CS3 >> 2: return "CS3";
-    case IPTOS_CLASS_CS4 >> 2: return "CS4";
-    case IPTOS_CLASS_CS5 >> 2: return "CS5";
-    case IPTOS_CLASS_CS6 >> 2: return "CS6";
-    case IPTOS_CLASS_CS7 >> 2: return "CS7";
-    case IPTOS_DSCP_AF11 >> 2: return "AF11";
-    case IPTOS_DSCP_AF12 >> 2: return "AF12";
-    case IPTOS_DSCP_AF13 >> 2: return "AF13";
-    case IPTOS_DSCP_AF21 >> 2: return "AF21";
-    case IPTOS_DSCP_AF22 >> 2: return "AF22";
-    case IPTOS_DSCP_AF23 >> 2: return "AF23";
-    case IPTOS_DSCP_AF31 >> 2: return "AF31";
-    case IPTOS_DSCP_AF32 >> 2: return "AF32";
-    case IPTOS_DSCP_AF33 >> 2: return "AF33";
-    case IPTOS_DSCP_AF41 >> 2: return "AF41";
-    case IPTOS_DSCP_AF42 >> 2: return "AF42";
-    case IPTOS_DSCP_AF43 >> 2: return "AF43";
-    case IPTOS_DSCP_EF >> 2:   return "EF (Expedited Forwarding)";
-    case IPTOS_DSCP_VA >> 2:   return "VA (Voice-Admit)";
-    case IPTOS_DSCP_LE >> 2:   return "LE (Lower-Effort)";
-    default: return "Custom (" + std::to_string(dscp) + ")";
+    case IPTOS_CLASS_CS0 >> 2:
+      return "Default (BE)";
+    case IPTOS_CLASS_CS1 >> 2:
+      return "CS1";
+    case IPTOS_CLASS_CS2 >> 2:
+      return "CS2";
+    case IPTOS_CLASS_CS3 >> 2:
+      return "CS3";
+    case IPTOS_CLASS_CS4 >> 2:
+      return "CS4";
+    case IPTOS_CLASS_CS5 >> 2:
+      return "CS5";
+    case IPTOS_CLASS_CS6 >> 2:
+      return "CS6";
+    case IPTOS_CLASS_CS7 >> 2:
+      return "CS7";
+    case IPTOS_DSCP_AF11 >> 2:
+      return "AF11";
+    case IPTOS_DSCP_AF12 >> 2:
+      return "AF12";
+    case IPTOS_DSCP_AF13 >> 2:
+      return "AF13";
+    case IPTOS_DSCP_AF21 >> 2:
+      return "AF21";
+    case IPTOS_DSCP_AF22 >> 2:
+      return "AF22";
+    case IPTOS_DSCP_AF23 >> 2:
+      return "AF23";
+    case IPTOS_DSCP_AF31 >> 2:
+      return "AF31";
+    case IPTOS_DSCP_AF32 >> 2:
+      return "AF32";
+    case IPTOS_DSCP_AF33 >> 2:
+      return "AF33";
+    case IPTOS_DSCP_AF41 >> 2:
+      return "AF41";
+    case IPTOS_DSCP_AF42 >> 2:
+      return "AF42";
+    case IPTOS_DSCP_AF43 >> 2:
+      return "AF43";
+    case IPTOS_DSCP_EF >> 2:
+      return "EF (Expedited Forwarding)";
+    case IPTOS_DSCP_VA >> 2:
+      return "VA (Voice-Admit)";
+    case IPTOS_DSCP_LE >> 2:
+      return "LE (Lower-Effort)";
+    default:
+      return "Custom (" + std::to_string(dscp) + ")";
   }
 }
 
@@ -480,8 +566,7 @@ void print_upper_layer_summary(std::uint8_t proto,
             << static_cast<int>(proto) << ") payload"
             << " ─────────────────────\n";
 
-  if ((proto == IPPROTO_TCP || proto == IPPROTO_UDP ||
-       proto == IPPROTO_SCTP) &&
+  if ((proto == IPPROTO_TCP || proto == IPPROTO_UDP || proto == IPPROTO_SCTP) &&
       data.size() >= 4) {
     const std::uint16_t sport = read_be16(data.data());
     const std::uint16_t dport = read_be16(data.data() + 2);
@@ -528,8 +613,8 @@ struct ExtWalkResult {
 
   constexpr auto is_ext = [](std::uint8_t t) noexcept {
     return t == IPPROTO_HOPOPTS || t == IPPROTO_ROUTING ||
-           t == IPPROTO_FRAGMENT || t == IPPROTO_DSTOPTS ||
-           t == IPPROTO_MH || t == IPPROTO_NONE;
+           t == IPPROTO_FRAGMENT || t == IPPROTO_DSTOPTS || t == IPPROTO_MH ||
+           t == IPPROTO_NONE;
   };
 
   std::size_t off = 0;
@@ -561,8 +646,8 @@ struct ExtWalkResult {
   }
 
   r.final_proto = next_hdr;
-  r.payload = (off < data.size()) ? data.subspan(off)
-                                  : std::span<const std::uint8_t>{};
+  r.payload =
+      (off < data.size()) ? data.subspan(off) : std::span<const std::uint8_t>{};
   return r;
 }
 
@@ -731,7 +816,7 @@ void decode_ipv6(std::span<const std::uint8_t> data) {
               << (ext.frag_offset == 0 && ext.frag_more    ? " [First Fragment]"
                   : ext.frag_offset == 0 && !ext.frag_more ? " [Not Fragmented]"
                   : !ext.frag_more                         ? " [Last Fragment]"
-                                                           : " [Middle Fragment]")
+                                   : " [Middle Fragment]")
               << "\n";
     std::cout << "│ ║    More Fragments  : " << (ext.frag_more ? "Yes" : "No")
               << "\n";
@@ -837,9 +922,9 @@ int main(int argc, char* argv[]) {
   socklen_t sender_len = sizeof(sender);
 
   while (g_running.load(std::memory_order_relaxed)) {
-    const ssize_t n = ::recvfrom(sock, buf->data(), buf->size(), 0,
-                                 reinterpret_cast<sockaddr*>(&sender),
-                                 &sender_len);
+    const ssize_t n =
+        ::recvfrom(sock, buf->data(), buf->size(), 0,
+                   reinterpret_cast<sockaddr*>(&sender), &sender_len);
     if (n < 0) {
       if (g_running.load(std::memory_order_relaxed)) std::perror("recvfrom");
       break;
