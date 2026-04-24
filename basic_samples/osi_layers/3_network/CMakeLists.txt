@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.20)
+
+project(network_layer_reader LANGUAGES CXX)
+
+add_executable(
+    ${PROJECT_NAME}
+    main.cpp
+)
+
+set_target_properties(
+    ${PROJECT_NAME}
+    PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED YES
+        CXX_EXTENSIONS NO
+)
+
+target_compile_options(
+    ${PROJECT_NAME}
+    PUBLIC
+         -Wall -Wextra -Wpedantic
+)
+
