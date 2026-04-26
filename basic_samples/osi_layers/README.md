@@ -89,5 +89,31 @@ Key design decisions:
 * NUMA-aware memory
 * Lock-free SPSC queues between stages
 
+## Reverse Engineering an Unknown Protocol — The Method
+
+Since the job posting explicitly mentions this, have a structured answer ready:
+
+1. **Capture traffic** with Wireshark or tcpdump and look for fixed-size headers, magic bytes, or repeated patterns at known offsets.
+2. **Identify structure** — find length fields, message type fields, and checksums by observing correlations between values and payload sizes.
+3. **Generate input variants** — if you control one endpoint, send controlled inputs and observe how the wire encoding changes.
+4. **Look for entropy** — low-entropy fields are likely fixed strings or enumerations; high-entropy fields are likely encrypted or compressed payloads.
+5. **Document incrementally** as a C struct and validate by writing a parser and replaying captured traffic through it.
+
+## Quick-Reference Cheat Sheet
+
+| Topic | What to know |
+|---|---|
+| **5-tuple** | src IP, dst IP, src port, dst port, protocol |
+| **TCP flags** | SYN, ACK, FIN, RST, PSH, URG — and the state machine |
+| **IP fragmentation** | MF flag, fragment offset, reassembly at L3 |
+| **Byte order** | Network = big-endian; always use `ntohl`/`ntohs` |
+| **Pattern matching** | Aho-Corasick for multi-pattern, Hyperscan for production |
+| **Flow table** | Hash map keyed on 5-tuple, RAII-managed entries |
+| **TLS inspection** | Requires key material or MITM proxy; blind to encrypted payload otherwise |
+| **QUIC** | UDP-based, encrypts transport headers — harder to inspect than TCP |
+| **DPDK / PF_RING** | Kernel-bypass capture for line-rate packet processing |
+| **Tools** | Wireshark, tcpdump, Scapy (Python), nmap, tshark |
+
+With this foundation, you should be able to hold a confident, deep conversation across all three of the interview's focus areas. Good luck! 🎯
 
 
