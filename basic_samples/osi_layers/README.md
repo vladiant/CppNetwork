@@ -1,6 +1,8 @@
 
 ## OSI Layers
 
+---
+
 | Layer | Name (Unit) | Key Protocols / Technologies | DPI Relevance |
 | :--- | :--- | :--- | :--- |
 | **7** | **Application** (Data) | HTTP/2, QUIC, DNS, TLS, SMTP, MQTT, RTP | Protocol fingerprinting, content inspection target |
@@ -18,6 +20,8 @@ For each layer:
 
 ## Deep Packet Inspection (DPI) pipeline
 
+---
+
 ### Deep Packet Inspection Pipeline Breakdown
 
 | Stage | Capture | L2–L3 Decode | L4 Decode | L7 Classify | Action |
@@ -34,11 +38,27 @@ For each layer:
 
 ---
 
+### Key Topics
+
+* The **5-tuple** is the atomic unit of DPI — source IP, destination IP, source port, destination port, and protocol.
+
+* **TCP stream reassembly** Packets arrive out of order. TCP sequence numbers are how you put them back together. Know what `SEQ`, `ACK`, `SYN`, `FIN`, `RST` flags mean and how a state machine tracks a TCP connection through its lifecycle.
+
+**Protocol fingerprinting** The two main approaches are: signature-based (pattern matching at byte offsets — e.g., HTTP always starts with a known verb) and behavioral/statistical (flow timing, packet size distributions, inter-arrival times).
+
+**Aho-Corasick** is the algorithm behind multi-pattern string matching in DPI engines. Know what it does and why it's preferred over naive regex for matching thousands of patterns simultaneously. Intel's Hyperscan is the production library — worth knowing the name. [Aho–Corasick algorithm](https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm)
+
+**Byte order** — network byte order is big-endian; x86 hosts are little-endian. Call `ntohs()` / `ntohl()` when reading IP and TCP header fields.
+
+---
+
 ### C++ Implementation Notes
 * **Headers/Casting:** Use `struct iphdr` / `tcphdr` + `reinterpret_cast`.
 * **Byte Order:** Utilize `ntohs()` / `ntohl()` for network-to-host conversions.
 * **Storage:** `std::unordered_map` is typically used for the flow table.
 * **Memory Management:** Use **RAII** (Resource Acquisition Is Initialization) for managing packet buffers to prevent leaks.
+
+---
 
 ### System Design: High-Throughput DPI Pipeline
 ```mermaid
@@ -89,6 +109,8 @@ Key design decisions:
 * NUMA-aware memory
 * Lock-free SPSC queues between stages
 
+---
+
 ## Reverse Engineering an Unknown Protocol — The Method
 
 Since the job posting explicitly mentions this, have a structured answer ready:
@@ -98,6 +120,8 @@ Since the job posting explicitly mentions this, have a structured answer ready:
 3. **Generate input variants** — if you control one endpoint, send controlled inputs and observe how the wire encoding changes.
 4. **Look for entropy** — low-entropy fields are likely fixed strings or enumerations; high-entropy fields are likely encrypted or compressed payloads.
 5. **Document incrementally** as a C struct and validate by writing a parser and replaying captured traffic through it.
+
+---
 
 ## Quick-Reference Cheat Sheet
 
@@ -113,7 +137,4 @@ Since the job posting explicitly mentions this, have a structured answer ready:
 | **QUIC** | UDP-based, encrypts transport headers — harder to inspect than TCP |
 | **DPDK / PF_RING** | Kernel-bypass capture for line-rate packet processing |
 | **Tools** | Wireshark, tcpdump, Scapy (Python), nmap, tshark |
-
-With this foundation, you should be able to hold a confident, deep conversation across all three of the interview's focus areas. Good luck! 🎯
-
 
