@@ -138,3 +138,23 @@ Since the job posting explicitly mentions this, have a structured answer ready:
 | **DPDK / PF_RING** | Kernel-bypass capture for line-rate packet processing |
 | **Tools** | Wireshark, tcpdump, Scapy (Python), nmap, tshark |
 
+---
+
+## References
+* [OSI model](https://en.wikipedia.org/wiki/OSI_model)
+* [Layers of OSI Model](https://www.geeksforgeeks.org/computer-networks/open-systems-interconnection-model-osi/)
+* [Networking: OSI model & OSINT tools for Linux ](https://mzacki.github.io/osi/)
+* <https://github.com/nguyenchiemminhvu/LinuxNetworkProgramming>
+* [socket(2) - Linux manual page](https://man7.org/linux/man-pages/man2/socket.2.html)
+* [packet(5) - Linux manual page](https://man7.org/linux/man-pages/man7/packet.7.html)
+* [TCP 3-Way Handshake Process](https://www.geeksforgeeks.org/computer-networks/tcp-3-way-handshake-process/)
+* [TCP 3-way Handshake Process](https://networkwalks.com/tcp-3-way-handshake-process/)
+* [Aho-Corasick algorithm](https://www.geeksforgeeks.org/dsa/aho-corasick-algorithm-pattern-searching/)
+* [TCP Operational Overview and the TCP Finite State Machine (FSM)](http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm)
+* [tcpdump & libpcap](https://www.tcpdump.org/)
+* <https://github.com/the-tcpdump-group/libpcap>
+* [Data Plane Development Kit (DPDK)](https://www.intel.com/content/www/us/en/developer/topic-technology/networking/dpdk.html)
+* [PF_RING : Open Source packet capture framework](https://www.ntop.org/products/packet-capture/pf_ring/)
+* [Positioning PF_RING ZC vs DPDK](https://www.ntop.org/positioning-pf_ring-zc-vs-dpdk/)
+* [Scapy](https://scapy.net/) , <https://github.com/secdev/scapy>
+
